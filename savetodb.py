@@ -15,15 +15,15 @@ class Base(DeclarativeBase):
     pass
 
 class Department(Base):
-    __tablename__ = "departments"
+    __tablename__ = "arsip_departments"
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(100))
     defcode: Mapped[str] = mapped_column(String(20))
 
 class Bundle(Base):
-    __tablename__ = "bundles"
+    __tablename__ = "arsip_bundles"
     id: Mapped[int] = mapped_column(primary_key=True)
-    department_id: Mapped[int] = mapped_column(ForeignKey("departments.id"))
+    department_id: Mapped[int] = mapped_column(ForeignKey("arsip_departments.id"))
     box_number: Mapped[int] = mapped_column(SmallInteger)
     bundle_number: Mapped[int] = mapped_column(SmallInteger)
     code: Mapped[str] = mapped_column(String(20))
@@ -34,9 +34,9 @@ class Bundle(Base):
 
 
 class Doc(Base):
-    __tablename__ = "docs"
+    __tablename__ = "arsip_docs"
     id: Mapped[int] = mapped_column(primary_key=True)
-    bundle_id: Mapped[int] = mapped_column(ForeignKey("bundles.id"))
+    bundle_id: Mapped[int] = mapped_column(ForeignKey("arsip_bundles.id"))
     doc_number: Mapped[int] = mapped_column(SmallInteger)
     doc_count: Mapped[int] = mapped_column(SmallInteger)
     orinot: Mapped[str] = mapped_column(String(10), nullable=True)
