@@ -9,7 +9,7 @@ from sqlalchemy.orm import Mapped, Session
 from sqlalchemy.orm import mapped_column
 # from sqlalchemy.orm import relationship
 
-engine = create_engine('mysql+pymysql://root:1234@localhost:33061/arsipdb2', echo=False)
+engine = create_engine('mysql+pymysql://root:1234@localhost:33061/arsipdb3', echo=False)
 
 class Base(DeclarativeBase):
     pass
@@ -19,6 +19,7 @@ class Department(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(100))
     defcode: Mapped[str] = mapped_column(String(20))
+    link: Mapped[str] = mapped_column(String(20))
 
 class Bundle(Base):
     __tablename__ = "arsip_bundle"
@@ -42,21 +43,27 @@ class Doc(Base):
     orinot: Mapped[str] = mapped_column(String(10), nullable=True)
     doc_type: Mapped[str] = mapped_column(String(20), nullable=True)
     description: Mapped[str] = mapped_column(Text, nullable=True)
+    page_count: Mapped[str] = mapped_column(SmallInteger, nullable=True)
+    filesize: Mapped[int] = mapped_column(SmallInteger, nullable=True)
 
 
 Base.metadata.drop_all(engine)
 Base.metadata.create_all(engine)
 session = Session(engine)
-irigasi = Department(name="IRIGASI", defcode="IR")
-ab = Department(name="AIR BAKU", defcode="AB")
-pantai = Department(name="PANTAI", defcode="P")
-sungai = Department(name="SUNGAI", defcode="S")
+irigasi = Department(name="IRIGASI", defcode="IR", link="irigasi")
+ab = Department(name="AIR BAKU", defcode="AB", link="airbaku")
+pantai = Department(name="PANTAI", defcode="P", link="pantai")
+sungai = Department(name="SUNGAI", defcode="S", link="sungai")
+keuangan = Department(name="KEUANGAN", defcode="SPM", link="keuangan")
 
 
 session.add(irigasi)
 session.add(ab)
 session.add(pantai)
 session.add(sungai)
+session.add(keuangan)
+
+
 
 session.flush()
 session.commit()
@@ -77,7 +84,7 @@ for box in data:
              ket = ''
          else:
              ket = "".join(bundle['ket']).upper()
-         
+
          if bundle['tahun'] == 'None':
              year = ''
          else:
@@ -94,6 +101,7 @@ for box in data:
 
             docinsert = Doc(bundle_id=bundleinsert.id, doc_number=doc['nourut'], doc_count=jumlah, description=doc['uraian'])
             session.add(docinsert)
+            print("Insert record number: ", doc['nourut'])
 
 session.flush()
 session.commit()
