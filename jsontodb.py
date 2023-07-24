@@ -19,7 +19,7 @@ TABLE_PREFIX = "alihmedia_inactive_"
 DATABASE = "arsipdb3"
 
 
-engine = create_engine('mysql+pymysql://root:1234@localhost:33061/arsipdb3', echo=False)
+engine = create_engine('mysql+pymysql://root:1234@localhost:33061/arsipserverdb', echo=False)
 
 class Base(DeclarativeBase):
     pass
