@@ -3,8 +3,10 @@ import json
 import argparse
 import sys
 import os
+from settings import *
 def getbegin(ws, rownum, col):
     while True:
+        # print(ws[f"{col}{rownum}"].value)
         if ws[f"{col}{rownum}"].value == None:
             rownum += 1
         else:
@@ -99,28 +101,34 @@ def parse(ws):
 
 def main():
     parser = argparse.ArgumentParser(description="Get data from excel and save them to json")
-    parser.add_argument('-input', '--xlsinput', type=str,help="XLSX File Input")
-    parser.add_argument('-sname', '--sheetname', type=str,help="Sheet Name of XLSX file")
+    # parser.add_argument('-input', '--xlsinput', type=str,help="XLSX File Input")
+    # parser.add_argument('-sname', '--sheetname', type=str,help="Sheet Name of XLSX file")
     parser.add_argument('-output', '--jsonoutput', type=str,help="File output in json")
 
     args = parser.parse_args()
-    if not (args.xlsinput[-5:] == '.xlsx' or args.xlsinput[-5:] == '.xlsm'):
-        input('input the right XLSX or XLSM file')
-        sys.exit()
+    # if not (args.xlsinput[-5:] == '.xlsx' or args.xlsinput[-5:] == '.xlsm'):
+    #     input('input the right XLSX or XLSM file')
+    #     sys.exit()
 
-    isExist = os.path.exists(args.xlsinput)
-    if not isExist:
-        input(args.xlsinput + " does not exist")
-        sys.exit()
+    # isExist = os.path.exists(args.xlsinput)
+    # if not isExist:
+    #     input(args.xlsinput + " does not exist")
+    #     sys.exit()
 
     # fname = "Daftar Arsip.xlsx"
     # wb = load_workbook(filename=fname)
     # ws = wb["IRIGASI"]
-    wb = load_workbook(filename=args.xlsinput)
-    ws = wb[args.sheetname]
-    boxlist = parse(ws)
+    mainboxlist = []
+    wb = load_workbook(filename=EXCEL_FILE)
+    for sheetname in EXCEL_SHEET:
+        print(sheetname, "generating...", end="", flush=True)
+        ws = wb[sheetname]
+        mainboxlist.extend(parse(ws))
+        print("Success")
+    
+    
     with open(args.jsonoutput, 'w') as file:
-        json.dump(boxlist, file)
+        json.dump(mainboxlist, file)
 
 if __name__ == '__main__':
     main()

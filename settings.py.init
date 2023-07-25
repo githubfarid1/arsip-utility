@@ -11,3 +11,5 @@ TABLE_PREFIX = "alihmedia_inactive_"
 APP_NAME = "alihmedia_inactive"
 COVER_LOCATION = os.path.join("/home/farid/dev/python/bwsmalut2/", "static", "cover")
 PDF_LOCATION = "/home/farid/pdfs/"
+EXCEL_FILE = "Daftar Arsip.xlsx"
+EXCEL_SHEET = ["IRIGASI", "AB", "PANTAI", "SUNGAI", "KEUANGAN"]
