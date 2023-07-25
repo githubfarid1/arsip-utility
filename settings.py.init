@@ -8,5 +8,6 @@ DEPARTMENT_TABLE = "department"
 BUNDLE_TABLE = "bundle"
 DOC_TABLE = "doc"
 TABLE_PREFIX = "alihmedia_inactive_"
+APP_NAME = "alihmedia_inactive"
 COVER_LOCATION = os.path.join("/home/farid/dev/python/bwsmalut2/", "static", "cover")
 PDF_LOCATION = "/home/farid/pdfs/"

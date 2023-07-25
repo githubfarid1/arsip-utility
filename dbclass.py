@@ -41,6 +41,6 @@ class Doc(Base):
     doc_type: Mapped[str] = mapped_column(String(20), nullable=True)
     description: Mapped[str] = mapped_column(Text, nullable=True)
     page_count: Mapped[str] = mapped_column(SmallInteger, nullable=True)
-    filesize: Mapped[int] = mapped_column(SmallInteger, nullable=True)
+    filesize: Mapped[int] = mapped_column(Integer, nullable=True)
     bundle = relationship("Bundle")
     # comments = relationship("Comment")
