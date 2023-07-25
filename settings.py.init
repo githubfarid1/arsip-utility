@@ -1,3 +1,4 @@
+#initial global variable
 import os
 DBNAME = "arsipdb3"
 PORT = "33061"
