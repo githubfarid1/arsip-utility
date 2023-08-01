@@ -6,3 +6,4 @@ __pycache__/
 /util-env
 /settings.py
 /gitme.sh
+/rungencover.sh
