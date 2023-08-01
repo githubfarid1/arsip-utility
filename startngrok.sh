@@ -9,8 +9,7 @@ while ! nc -z localhost 4040; do
 done
 sleep 1
 # Get NGROK dynamic URL from its own exposed local API
-NGROK_REMOTE_URL="$(curl -s http://localhost:4040/api/tunnels | jq -r ".tunnels[0].public_url")"
-echo ${NGROK_REMOTE_URL}
+NGROK_REMOTE_URL="$(curl http://localhost:4040/api/tunnels | jq ".tunnels[0].public_url")"
 if test -z "${NGROK_REMOTE_URL}"
 then
   echo "❌ ERROR: ngrok doesn't seem to return a valid URL (${NGROK_REMOTE_URL})."
@@ -38,5 +37,5 @@ PARENT_PATH=$( cd "$(dirname "${BASH_SOURCE[0]}")" || exit ; pwd -P )
 
 # bold=$(tput bold)
 # normal=$(tput sgr0)
-echo ${NGROK_REMOTE_URL}
+echo ${NGROK_REMOTE_URL} | tr -d '\n' | pbcopy
 printf "\n\n🌍 Your ngrok remote URL is 👉 ${bold}${NGROK_REMOTE_URL} 👈\n📋 ${normal}I've just copied it to your clipboard 😉\n\n"
