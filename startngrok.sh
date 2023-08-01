@@ -9,7 +9,7 @@ while ! nc -z localhost 4040; do
 done
 
 # Get NGROK dynamic URL from its own exposed local API
-NGROK_REMOTE_URL="$(curl http://localhost:4040/api/tunnels | jq -r ".tunnels[0].public_url")"
+NGROK_REMOTE_URL="$(curl -s http://localhost:4040/api/tunnels | jq -r ".tunnels[0].public_url")"
 echo ${NGROK_REMOTE_URL}
 if test -z "${NGROK_REMOTE_URL}"
 then
