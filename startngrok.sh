@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Start NGROK in background
 echo "⚡️ Starting ngrok"
-/home/arsip/ngrok http 8080 > /dev/null &
+/home/arsip/ngrok http 80 > /dev/null &
 
 # Wait for ngrok to be available
 while ! nc -z localhost 4040; do
