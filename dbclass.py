@@ -6,6 +6,7 @@ from sqlalchemy.orm import DeclarativeBase
 from sqlalchemy.orm import Mapped
 from sqlalchemy.orm import mapped_column
 from settings import *
+import uuid
 
 class Base(DeclarativeBase):
     pass
@@ -15,7 +16,9 @@ class Department(Base):
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(String(100))
     defcode: Mapped[str] = mapped_column(String(20))
-    link: Mapped[str] = mapped_column(String(20))
+    link: Mapped[str] = mapped_column(String(50))
+    folder: Mapped[str] = mapped_column(String(50))
+
 
 class Bundle(Base):
     __tablename__ = TABLE_PREFIX + BUNDLE_TABLE
@@ -42,5 +45,8 @@ class Doc(Base):
     description: Mapped[str] = mapped_column(Text, nullable=True)
     page_count: Mapped[str] = mapped_column(SmallInteger, nullable=True)
     filesize: Mapped[int] = mapped_column(Integer, nullable=True)
+    # uuid_id: Mapped[str] = mapped_column(String(36), nullable=False, default=lambda: str(uuid.uuid4()))
+    uuid_id: Mapped[str] = mapped_column(String(36))
+
     bundle = relationship("Bundle")
     # comments = relationship("Comment")

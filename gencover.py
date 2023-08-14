@@ -50,10 +50,10 @@ def main():
     session = Session()    
     result = session.query(Doc).join(Bundle).join(Department).all()
     for row in result:
-        path = os.path.join(PDF_LOCATION, APP_NAME, row.bundle.department.link, str(row.bundle.box_number), str(row.doc_number) + ".pdf")
+        path = os.path.join(PDF_LOCATION, APP_NAME, row.bundle.department.folder, str(row.bundle.box_number), str(row.doc_number) + ".pdf")
         # print(path)
         if exists(path):
-            coverfilename = "{}{}_{}_{}.png".format(TABLE_PREFIX, row.bundle.department.link, row.bundle.box_number, row.doc_number)
+            coverfilename = "{}{}_{}_{}.png".format(TABLE_PREFIX, row.bundle.department.folder, row.bundle.box_number, row.doc_number)
             
             if args.replace == 'Yes' or args.replace == 'yes':
                 generatecover(pdffile=path, coverfilename=coverfilename)

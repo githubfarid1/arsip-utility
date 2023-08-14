@@ -7,6 +7,7 @@ from settings import *
 from sqlalchemy import create_engine
 from sqlalchemy.orm import Session
 from dbclass import Doc, Department, Bundle, Base
+import uuid
 
 engine = create_engine('mysql+pymysql://{}:{}@localhost:{}/{}'.format(USER, PASSWORD, PORT, DBNAME) , echo=False)
 
@@ -90,18 +91,8 @@ def parse(ws, sheetname):
                             uraian = ws[f"G{i2}"].value
                             jumlah = ws[f"I{i2}"].value
                         else:
-                            # print(box['box'], ws[f"G{i2}"].value, i2)
                             if ws[f"G{i2}"].value is not None and str(ws[f"C{i2}"].value).strip() != "":
                                 uraian += "\n" + str(ws[f"G{i2}"].value)
-
-                                # input(uraian)
-                            # pass
-
-
-                            # try:
-                            #     nourutlist.append({"nourut": ws[f"C{i2}"].value, "uraian": ws[f"G{i2}"].value, "jumlah": ws[f"I{i2}"].value })
-                            # except:
-                            #     pass
                 nourutlist.append({"nourut": nourut, "uraian": uraian, "jumlah": jumlah })
 
                 dtemp = {"berkas": berkasno, "kode": ws[f"D{begin}"].value, "tahun": str(ws[f"H{begin}"].value), "ket": str(ws[f"J{begin}"].value), "index": perus.strip() + "\n" + index.strip(), "begin": begin, "end": end, "data": nourutlist}
@@ -128,11 +119,6 @@ def parse(ws, sheetname):
                 except:
                     pass
 
-            # if ws[f"C{i2}"].value != None and str(ws[f"C{i2}"].value).strip() != "":
-            #     # try:
-            #     nourutlist.append({"nourut": ws[f"C{i2}"].value, "uraian": ws[f"G{i2}"].value, "jumlah": ws[f"I{i2}"].value })
-                # except:
-                #     pass
             if urutfirst:
                 urutfirst = False
                 nourut = int(ws[f"C{i2}"].value)
@@ -160,7 +146,7 @@ def parse(ws, sheetname):
 
 def listtodb(boxlist, sheetname, session):
     defcode = boxlist[0]['data'][0]['kode']
-    dep = Department(name=sheetname, defcode=defcode, link=str(sheetname).replace(' ', "_").lower() )
+    dep = Department(name=sheetname, defcode=defcode, link=TABLE_PREFIX + str(sheetname).replace(' ', "_").lower(), folder=str(sheetname).replace(' ', "_").lower() )
     session.add(dep)
     session.flush()
     session.commit()
@@ -190,12 +176,9 @@ def listtodb(boxlist, sheetname, session):
                 else:
                     jumlah = doc['jumlah']
 
-                # if doc['uraian'] is not None and doc['nourut'] is None:
-                #     print("check:",doc['uraian'], doc['nourut'])
-                #     sys.exit()
                 if str(jumlah).strip() == "":
                     jumlah = 1
-                docinsert = Doc(bundle_id=bundleinsert.id, doc_number=doc['nourut'], doc_count=jumlah, description=doc['uraian'])
+                docinsert = Doc(bundle_id=bundleinsert.id, doc_number=doc['nourut'], doc_count=jumlah, description=doc['uraian'], uuid_id=uuid.uuid4().hex)
                 session.add(docinsert)
                 print("record number: ", doc['nourut'], "Inserted" )
 
@@ -204,26 +187,8 @@ def listtodb(boxlist, sheetname, session):
 
 
 def main():
-    # parser = argparse.ArgumentParser(description="Get data from excel and save them to json")
-    # parser.add_argument('-input', '--xlsinput', type=str,help="XLSX File Input")
-    # parser.add_argument('-sname', '--sheetname', type=str,help="Sheet Name of XLSX file")
-    # parser.add_argument('-output', '--jsonoutput', type=str,help="File output in json")
-
-    # args = parser.parse_args()
-    # if not (args.xlsinput[-5:] == '.xlsx' or args.xlsinput[-5:] == '.xlsm'):
-    #     input('input the right XLSX or XLSM file')
-    #     sys.exit()
-
-    # isExist = os.path.exists(args.xlsinput)
-    # if not isExist:
-    #     input(args.xlsinput + " does not exist")
-    #     sys.exit()
-
-    # fname = "Daftar Arsip.xlsx"
-    # wb = load_workbook(filename=fname)
-    # ws = wb["IRIGASI"]
-    Base.metadata.drop_all(engine)
-    Base.metadata.create_all(engine)
+    # Base.metadata.drop_all(engine)
+    # Base.metadata.create_all(engine)
     session = Session(engine)
 
     mainboxlist = []
@@ -232,14 +197,9 @@ def main():
         input(sheetname)
         print(sheetname, "generating...", end="", flush=True)
         ws = wb[sheetname]
-        # checkexcel(ws, sheetname)
         datalist = parse(ws, sheetname)
         listtodb(boxlist=datalist, sheetname=sheetname, session=session)
         print("Success")
-    
-    
-    # with open(args.jsonoutput, 'w') as file:
-    #     json.dump(mainboxlist, file)
 
 if __name__ == '__main__':
     main()
