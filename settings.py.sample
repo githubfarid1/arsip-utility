@@ -1,0 +1,16 @@
+import os
+DBNAME = "arsipdb5"
+PORT = "33061"
+USER = "root"
+PASSWORD = "1234"
+DEPARTMENT_TABLE = "department"
+BUNDLE_TABLE = "bundle"
+DOC_TABLE = "doc"
+TABLE_PREFIX = "alihmedia_inactive_"
+APP_NAME = "alihmedia_inactive"
+COVER_LOCATION = os.path.join("/home/farid/dev/python/bwsmalut3/apps", "static", "cover")
+PDF_LOCATION = "/home/farid/pdfs/"
+EXCEL_FILE = "Daftar Arsip-asli.xlsx"
+EXCEL_SHEET = ["IRIGASI", "AIR BAKU", "PANTAI", "SUNGAI", "KEUANGAN"]
+# EXCEL_SHEET = ["KEUANGAN"]
+TMPPDF_LOCATION = "/home/farid/dev/python/bwsmalut3/media/tmpfiles"
