@@ -34,5 +34,5 @@ for pdf in list(tmppdfs.iterdir()):
 
     if not exists(os.path.join(PDF_LOCATION, APP_NAME, folder, str(box_number))):
         os.mkdir(os.path.join(PDF_LOCATION, APP_NAME, folder, str(box_number)))
-    
+    print("File",pathlib.Path(pdf).name, "Dipindah Ke: " + os.path.join(PDF_LOCATION, APP_NAME, folder, str(box_number), str(doc_number) + ".pdf"))
     shutil.move(pdf, os.path.join(PDF_LOCATION, APP_NAME, folder, str(box_number), str(doc_number) + ".pdf"))
