@@ -14,3 +14,5 @@ EXCEL_FILE = "Daftar Arsip-asli.xlsx"
 EXCEL_SHEET = ["IRIGASI", "AIR BAKU", "PANTAI", "SUNGAI", "KEUANGAN"]
 # EXCEL_SHEET = ["KEUANGAN"]
 TMPPDF_LOCATION = "/home/farid/dev/python/bwsmalut3/media/tmpfiles"
+
+BACKUP_LOCATION = "/home/farid/backup"
