@@ -8,3 +8,4 @@ __pycache__/
 /gitme.sh
 /rungencover.sh
 /runmovepdf.sh
+/runbackup.sh
